@@ -1,0 +1,105 @@
+// 1. Importar o theming do Angular Material
+@import "@angular/material/theming";
+
+// 2. Definir a cor base primária
+$custom-primary: (
+  50: #f0e9e0,
+  100: #d9cdb9,
+  200: #c2af8e,
+  300: #ab9264,
+  400: #987c4a,
+  500: #826d54,
+  // Tom principal
+  600: #705c45,
+  700: #5f4d39,
+  800: #4e3e2d,
+  900: #3e3023,
+  A100: #d9cdb9,
+  A200: #c2af8e,
+  A400: #987c4a,
+  A700: #5f4d39,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #ffffff,
+    500: #ffffff,
+    // Contraste com o tom principal
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #ffffff,
+    A700: #ffffff,
+  ),
+);
+
+// 3. Definir a paleta `accent`
+$custom-accent: (
+  50: #e0f7fa,
+  100: #b2ebf2,
+  200: #80deea,
+  300: #4dd0e1,
+  400: #26c6da,
+  500: #129601,
+  // Tom principal
+  600: #00acc1,
+  700: #0097a7,
+  800: #00838f,
+  900: #006064,
+  A100: #84ffff,
+  A200: #18ffff,
+  A400: #00e5ff,
+  A700: #00b8d4,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #000000,
+    // Contraste com o tom principal
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000,
+  ),
+);
+
+// 4. Criar a paleta com mat-palette
+$primary-palette: mat-palette($custom-primary);
+$accent-palette: mat-palette($custom-accent);
+
+// 5. Criar o tema personalizado
+$custom-theme: mat-light-theme(
+  (
+    color: (
+      primary: $primary-palette,
+      accent: $accent-palette,
+    ),
+  )
+);
+
+// 6. Incluir os estilos do tema
+@include mat-core();
+@include angular-material-theme($custom-theme);
+
+// GENERAL
+
+html,
+body {
+  height: 100%;
+  background-color: #d9cdb9 !important;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: #d9cdb9 !important;
+}
