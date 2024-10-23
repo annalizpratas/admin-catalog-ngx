@@ -18,18 +18,13 @@
 
 <mat-form-field class="w-100">
   <mat-label>Filtrar Promoçoes</mat-label>
-  <mat-select
-    [(ngModel)]="filterPromo"
-    (ngModelChange)="onFilterChange(0)"
-  >
+  <mat-select [(ngModel)]="filterPromo" (ngModelChange)="onFilterChange(0)">
     <mat-option value="true">SIM</mat-option>
     <mat-option value="false" selected>NÃO</mat-option>
   </mat-select>
 </mat-form-field>
 
-<div *ngIf="msgError" class="alert alert-danger">
-  {{ msgError }}
-</div>
+<div *ngIf="msgError" class="alert alert-danger">{{ msgError }}</div>
 
 <mat-card class="p-4" *ngIf="productList">
   <mat-card-title>
@@ -52,12 +47,16 @@
           </div>
 
           <div class="col">
-            <span class="fw-bold">ID: {{product.id}}</span>
-            <div>
-              <span class="fw-bold">{{product.name}}</span>
-              - <span>{{product.size}}</span>
-            </div>
-            <p>{{product.description}}</p>
+            <p class="m-0">
+              ID: {{product.id}} -
+              <span class="fw-bold"> {{product.name}}</span>
+            </p>
+            <p class="m-0">Tamanho: {{product.size}}</p>
+            <p class="m-0">Preço: R$ {{product.price}}</p>
+            <p class="m-0" *ngIf="product.is_promo">
+              Promoção: R$ {{product.price_promo}}
+            </p>
+            <p class="m-0">Descrição: {{product.description}}</p>
           </div>
 
           <div class="col-2">
