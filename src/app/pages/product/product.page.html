@@ -1,36 +1,123 @@
 <app-back-page></app-back-page>
 
+<mat-form-field class="w-100">
+  <mat-label>Filtrar por categoria</mat-label>
+  <mat-select [(ngModel)]="filterCategory" (ngModelChange)="onFilterChange($event)">
+    <mat-option
+      *ngFor="let category of productCategoryList"
+      [value]="category.id"
+    >
+      {{category.name}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
 <mat-card class="p-4">
-  <mat-card-title>Lista de Produtos</mat-card-title>
+  <mat-card-title>
+    <div class="d-flex justify-content-between">
+      <h2>Lista de Produtos</h2>
+      <button mat-raised-button color="primary" (click)="openDialog()">
+        <mat-icon>add</mat-icon>
+        Adicionar
+      </button>
+    </div>
+  </mat-card-title>
+
   <mat-card-content>
     <mat-list>
-      <mat-list-item>
-        <div class="d-flex justify-content-start align-items-center">
-          <img src="../../../assets/imgs/product-default.jpg" alt="" />
-          <span>PRODUTO 1</span>
-        </div>
-      </mat-list-item>
+      <div *ngFor="let product of productList">
+        <mat-divider class="mb-3 mt-3"></mat-divider>
+        <div class="row">
+          <div class="col-3">
+            <img src="../../../assets/imgs/product-default.jpg" alt="" />
+          </div>
 
-      <mat-list-item>
-        <div class="d-flex justify-content-start align-items-center">
-          <img src="../../../assets/imgs/product-default.jpg" alt="" />
-          <span>PRODUTO 1</span>
-        </div>
-      </mat-list-item>
+          <div class="col">
+            <span class="fw-bold">ID: {{product.id}}</span>
+            <div>
+              <span class="fw-bold">{{product.name}}</span>
+              - <span>{{product.size}}</span>
+            </div>
+            <p>{{product.description}}</p>
+          </div>
 
-      <mat-list-item>
-        <div class="d-flex justify-content-start align-items-center">
-          <img src="../../../assets/imgs/product-default.jpg" alt="" />
-          <span>PRODUTO 1</span>
+          <div class="col-2">
+            <button color="primary" mat-button (click)="editProduct(product)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button color="warn" mat-button (click)="deleteProduct(product.id)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
         </div>
-      </mat-list-item>
-
-      <mat-list-item>
-        <div class="d-flex justify-content-start align-items-center">
-          <img src="../../../assets/imgs/product-default.jpg" alt="" />
-          <span>PRODUTO 1</span>
-        </div>
-      </mat-list-item>
+      </div>
     </mat-list>
   </mat-card-content>
 </mat-card>
+
+<ng-template #dialogTemplate>
+  <h1 mat-dialog-title>{{isEditMode ? 'Atualizar' : 'Criar'}} Produto</h1>
+  <div mat-dialog-content>
+    <mat-form-field class="w-100">
+      <mat-label>Nome do Produto</mat-label>
+      <input
+        matInput
+        [(ngModel)]="productManipulation.name"
+        (input)="productManipulation.name = productManipulation.name.toUpperCase()"
+      />
+    </mat-form-field>
+
+    <mat-form-field class="w-100">
+      <mat-label>Tamanho do Produto</mat-label>
+      <input matInput [(ngModel)]="productManipulation.size" />
+    </mat-form-field>
+
+    <mat-form-field class="w-100">
+      <mat-label>Descrição do Produto</mat-label>
+      <textarea
+        matInput
+        [(ngModel)]="productManipulation.description"
+      ></textarea>
+    </mat-form-field>
+
+    <mat-form-field class="w-100">
+      <mat-label>Preço do Produto</mat-label>
+      <input matInput [(ngModel)]="productManipulation.price" />
+    </mat-form-field>
+
+    <mat-form-field class="w-100">
+      <mat-label>Imagem do Produto</mat-label>
+      <input matInput [(ngModel)]="productManipulation.image" />
+    </mat-form-field>
+
+    <mat-form-field class="w-100">
+      <mat-label>Categoria do Produto</mat-label>
+      <mat-select [(ngModel)]="productManipulation.id_product_category">
+        <mat-option
+          *ngFor="let category of productCategoryList"
+          [value]="category.id"
+        >
+          {{category.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="w-100">
+      <mat-label>Status do Produto</mat-label>
+      <mat-select [(ngModel)]="productManipulation.id_product_status">
+        <mat-option
+          *ngFor="let status of productStatusList"
+          [value]="status.id"
+        >
+          {{status.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions class="float-end mb-3">
+    <button mat-button (click)="closeDialog()">Cancel</button>
+    <button mat-button (click)="saveProduct()">
+      {{isEditMode ? 'Atualizar' : 'Criar'}}
+    </button>
+  </div>
+</ng-template>

@@ -5,6 +5,6 @@ export class ProductModel {
   size?: string;
   price?: string;
   image?: string;
-  id_type_product?: number;
-  id_status_product?: number;
+  id_product_category?: number;
+  id_product_status?: number;
 }
