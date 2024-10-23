@@ -19,6 +19,9 @@ export class ProductPage {
   productStatusList: { id: number; name: string }[] = [];
 
   filterCategory = '';
+  filterPromo = false;
+
+  msgError = '';
 
   constructor(
     private dialog: MatDialog,
@@ -31,13 +34,20 @@ export class ProductPage {
     this.listProductStatus();
   }
 
-  onFilterChange(event: any): void {
-    this.productService.getProduct(event).subscribe(
+  onFilterChange(id_product_category: number, is_promo = false): void {
+    if (!id_product_category || id_product_category == 0) {
+      this.listProduct();
+      return;
+    }
+
+    this.productService.getProduct(is_promo, id_product_category).subscribe(
       (data) => {
         this.productList = data.response;
+        this.msgError = null;
       },
       (error) => {
         this.productList = null;
+        this.msgError = error.error.message;
       }
     );
   }
@@ -89,9 +99,16 @@ export class ProductPage {
   }
 
   private listProduct(): void {
-    this.productService.getProduct().subscribe((data) => {
-      this.productList = data.response;
-    });
+    this.productService.getProduct(this.filterPromo).subscribe(
+      (data) => {
+        this.productList = data.response;
+        this.msgError = null;
+      },
+      (error) => {
+        this.productList = null;
+        this.msgError = error.error.message;
+      }
+    );
   }
 
   private listProductCategory(): void {

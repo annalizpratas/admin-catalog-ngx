@@ -2,7 +2,11 @@
 
 <mat-form-field class="w-100">
   <mat-label>Filtrar por categoria</mat-label>
-  <mat-select [(ngModel)]="filterCategory" (ngModelChange)="onFilterChange($event)">
+  <mat-select
+    [(ngModel)]="filterCategory"
+    (ngModelChange)="onFilterChange($event)"
+  >
+    <mat-option value="0" selected>TODAS</mat-option>
     <mat-option
       *ngFor="let category of productCategoryList"
       [value]="category.id"
@@ -12,7 +16,22 @@
   </mat-select>
 </mat-form-field>
 
-<mat-card class="p-4">
+<mat-form-field class="w-100">
+  <mat-label>Filtrar Promoçoes</mat-label>
+  <mat-select
+    [(ngModel)]="filterPromo"
+    (ngModelChange)="onFilterChange(0, $event)"
+  >
+    <mat-option value="true">SIM</mat-option>
+    <mat-option value="false" selected>NÃO</mat-option>
+  </mat-select>
+</mat-form-field>
+
+<div *ngIf="msgError" class="alert alert-danger">
+  {{ msgError }}
+</div>
+
+<mat-card class="p-4" *ngIf="productList">
   <mat-card-title>
     <div class="d-flex justify-content-between">
       <h2>Lista de Produtos</h2>

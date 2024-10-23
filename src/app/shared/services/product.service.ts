@@ -12,9 +12,17 @@ export class ProductService {
   constructor(private http: HttpClient) {}
   
   // Product
-  getProduct(id_product_category?: number): Observable<ResponseModel<ProductModel[]>> {
-    const url = id_product_category ? `${this.url}/product-list/${id_product_category}` : `${this.url}/product-list`;
-    return this.http.get<ResponseModel<ProductModel[]>>(`${url}`, {});
+  getProduct(is_promo: boolean, id_product_category?: number): Observable<ResponseModel<ProductModel[]>> {
+    const url = id_product_category
+      ? `${this.url}/product-list/${id_product_category}`
+      : `${this.url}/product-list`;
+
+    const params: any = {};
+    if (is_promo !== undefined) {
+      params.is_promo = is_promo;
+    }
+
+    return this.http.get<ResponseModel<ProductModel[]>>(`${url}`, { params });
   }
 
   createProduct(data: ProductModel): Observable<ResponseModel<ProductModel>> {
