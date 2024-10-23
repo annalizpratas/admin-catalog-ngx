@@ -34,13 +34,13 @@ export class ProductPage {
     this.listProductStatus();
   }
 
-  onFilterChange(id_product_category: number, is_promo = false): void {
+  onFilterChange(id_product_category: number): void {
     if (!id_product_category || id_product_category == 0) {
       this.listProduct();
       return;
     }
 
-    this.productService.getProduct(is_promo, id_product_category).subscribe(
+    this.productService.getProduct(this.filterPromo, id_product_category).subscribe(
       (data) => {
         this.productList = data.response;
         this.msgError = null;
