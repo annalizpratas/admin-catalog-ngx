@@ -61,9 +61,9 @@
               <span class="fw-bold"> {{product.name}}</span>
             </p>
             <p class="m-0">Tamanho: {{product.size}}</p>
-            <p class="m-0">Preço: R$ {{product.price}}</p>
+            <p class="m-0">Preço: {{product.price | currency:'BRL'}}</p>
             <p class="m-0" *ngIf="product.is_promo">
-              Promoção: R$ {{product.price_promo}}
+              Promoção: {{product.price_promo | currency:'BRL'}}
             </p>
             <p class="m-0">Descrição: {{product.description}}</p>
           </div>
