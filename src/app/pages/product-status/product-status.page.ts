@@ -13,7 +13,7 @@ export class ProductStatusPage implements OnInit {
   @ViewChild('dialogTemplate') dialogTemplate!: TemplateRef<any>;
   displayedColumns: string[] = ['id', 'name', 'actions'];
   dataSource = new MatTableDataSource<any>([]);
-  status: {id?: number, name?: string} = {};
+  status: {id: number, name: string} = null;
   isEditMode = false;
 
   constructor(
@@ -27,7 +27,7 @@ export class ProductStatusPage implements OnInit {
 
   openDialog(): void {
     this.isEditMode = false;
-    this.status = {};
+    this.status = null;
     this.dialog.open(this.dialogTemplate);
   }
 
