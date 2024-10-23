@@ -70,4 +70,9 @@ export class ProductService {
   deleteProductCategory(id: number): Observable<ResponseModel<{id: number, name: string}>> {
     return this.http.delete<ResponseModel<{id: number, name: string}>>(`${this.url}/product-category/${id}`, {});
   }
+
+  // IMAGES
+  getImages(nameImage: string): string {
+    return `${this.url}/uploads/${nameImage}`;
+  }
 }

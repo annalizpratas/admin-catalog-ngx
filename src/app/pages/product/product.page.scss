@@ -1,3 +1,10 @@
 img {
   width: 100%;
 }
+
+::ng-deep {
+  .carousel-control-prev-icon,
+  .carousel-control-next-icon {
+    background-color: #826d54 !important; // Arrow color
+  }
+}

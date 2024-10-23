@@ -14,6 +14,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { SelectUploadImagesComponent } from './components/back-page/select-upload-images/select-upload-images.component';
+import { NgbCarouselModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,8 @@ import { SelectUploadImagesComponent } from './components/back-page/select-uploa
     BrowserAnimationsModule,
     MaterialModule,
     HttpClientModule,
+    NgbModule,
+    NgbCarouselModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

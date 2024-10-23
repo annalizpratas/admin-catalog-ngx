@@ -100,6 +100,10 @@ export class ProductPage {
     this.productManipulation.images = images;
   }
 
+  getImageUrl(image: string): string {
+    return this.productService.getImages(image);
+  }
+
   closeDialog(): void {
     this.dialog.closeAll();
   }

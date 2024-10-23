@@ -43,7 +43,16 @@
         <mat-divider class="mb-3 mt-3"></mat-divider>
         <div class="row">
           <div class="col-3">
-            <img src="../../../assets/imgs/product-default.jpg" alt="" />
+            <ngb-carousel *ngIf="product.images">
+              <ng-template ngbSlide *ngFor="let image of product.images">
+                <div class="picsum-img-wrapper">
+                  <img
+                    [src]="getImageUrl(image) ? getImageUrl(image) : '../../../assets/imgs/product-default.jpg'"
+                    alt="Random first slide"
+                  />
+                </div>
+              </ng-template>
+            </ngb-carousel>
           </div>
 
           <div class="col">
