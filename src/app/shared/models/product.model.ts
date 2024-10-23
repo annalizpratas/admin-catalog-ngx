@@ -4,7 +4,7 @@ export class ProductModel {
   description?: string;
   size?: string;
   price?: string;
-  image?: string;
+  images?: string[];
   price_promo?: string;
   is_promo?: boolean;
   id_product_category?: number;

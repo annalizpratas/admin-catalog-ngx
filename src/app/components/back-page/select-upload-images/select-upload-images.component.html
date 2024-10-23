@@ -1,0 +1,44 @@
+<div class="row mb-3">
+  <div class="col input-group">
+    <span
+      class="input-group-text cursor-pointer"
+      id="addon-wrapping"
+      (click)="fileInput.click()"
+      (keydown)="fileInput.click()"
+    >
+      <mat-icon>image</mat-icon>
+    </span>
+
+    <input
+      #fileInput
+      type="file"
+      class="form-control"
+      id="inputFileImage"
+      accept="image/*"
+      hidden
+      (change)="uploadImages($event)"
+    />
+
+    <div class="form-content form-floating">
+      <span
+        class="label-images ps-2 cursor-pointer"
+        [ngClass]="{ 'adjust-no-image': imagesManipulateds.length == 0 || !imagesManipulateds[0] }"
+        (click)="fileInput.click()"
+        (keydown)="fileInput.click()"
+      >
+        {{ multiple ? "Selecione as imagens" : "Selecione uma image" }}
+      </span>
+      <ng-container *ngFor="let image of imagesManipulateds">
+        <p class="m-2" *ngIf="image">
+          <span class="me-2">{{ image }}</span>
+          <a class="me-2" type="button" (click)="downloadImage(image)">
+            <mat-icon>download</mat-icon>
+          </a>
+          <a type="button" (click)="deleteImage(image)">
+            <mat-icon>delete</mat-icon>
+          </a>
+        </p>
+      </ng-container>
+    </div>
+  </div>
+</div>

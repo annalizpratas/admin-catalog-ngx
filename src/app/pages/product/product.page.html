@@ -6,7 +6,7 @@
     [(ngModel)]="filterCategory"
     (ngModelChange)="onFilterChange($event)"
   >
-    <mat-option value="0" selected>TODAS</mat-option>
+    <mat-option [value]="0" selected>TODAS</mat-option>
     <mat-option
       *ngFor="let category of productCategoryList"
       [value]="category.id"
@@ -17,10 +17,10 @@
 </mat-form-field>
 
 <mat-form-field class="w-100">
-  <mat-label>Filtrar Promoçoes</mat-label>
+  <mat-label>Filtrar Promoções</mat-label>
   <mat-select [(ngModel)]="filterPromo" (ngModelChange)="onFilterChange(0)">
-    <mat-option value="true">SIM</mat-option>
-    <mat-option value="false" selected>NÃO</mat-option>
+    <mat-option [value]="true">SIM</mat-option>
+    <mat-option [value]="false" selected>NÃO</mat-option>
   </mat-select>
 </mat-form-field>
 
@@ -104,8 +104,16 @@
     </mat-form-field>
 
     <mat-form-field class="w-100">
-      <mat-label>Imagem do Produto</mat-label>
-      <input matInput [(ngModel)]="productManipulation.image" />
+      <mat-label>Está na Promoção?</mat-label>
+      <mat-select [(ngModel)]="productManipulation.is_promo">
+        <mat-option [value]="true">SIM</mat-option>
+        <mat-option [value]="false" selected>NÃO</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="w-100" *ngIf="productManipulation.is_promo">
+      <mat-label>Preço da Promoção</mat-label>
+      <input matInput [(ngModel)]="productManipulation.price_promo" />
     </mat-form-field>
 
     <mat-form-field class="w-100">
@@ -131,7 +139,15 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
+
+    <app-select-upload-images
+      [multiple]="true"
+      [images]="productManipulation.image"
+      [filename]="filename"
+      (imagesSelected)="getUploadedImages($event)"
+    ></app-select-upload-images>
   </div>
+
   <div mat-dialog-actions class="float-end mb-3">
     <button mat-button (click)="closeDialog()">Cancel</button>
     <button mat-button (click)="saveProduct()">

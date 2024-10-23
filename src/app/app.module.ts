@@ -13,6 +13,7 @@ import { BackPageComponent } from './components/back-page/back-page.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { SelectUploadImagesComponent } from './components/back-page/select-upload-images/select-upload-images.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { HttpClientModule } from '@angular/common/http';
     ProductCategoryPage,
     ProductStatusPage,
     BackPageComponent,
+    SelectUploadImagesComponent,
   ],
   imports: [
     CommonModule,

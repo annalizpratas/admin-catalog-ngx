@@ -18,7 +18,7 @@ export class ProductPage {
   productCategoryList: { id: number; name: string }[] = [];
   productStatusList: { id: number; name: string }[] = [];
 
-  filterCategory = '';
+  filterCategory = 0;
   filterPromo = false;
 
   msgError = '';
@@ -40,16 +40,18 @@ export class ProductPage {
       return;
     }
 
-    this.productService.getProduct(this.filterPromo, id_product_category).subscribe(
-      (data) => {
-        this.productList = data.response;
-        this.msgError = null;
-      },
-      (error) => {
-        this.productList = null;
-        this.msgError = error.error.message;
-      }
-    );
+    this.productService
+      .getProduct(this.filterPromo, id_product_category)
+      .subscribe(
+        (data) => {
+          this.productList = data.response;
+          this.msgError = null;
+        },
+        (error) => {
+          this.productList = null;
+          this.msgError = error.error.message;
+        }
+      );
   }
 
   openDialog(): void {
@@ -92,6 +94,10 @@ export class ProductPage {
         });
     }
     this.closeDialog();
+  }
+
+  getUploadedImages(images: string[]): void {
+    this.productManipulation.images = images;
   }
 
   closeDialog(): void {
