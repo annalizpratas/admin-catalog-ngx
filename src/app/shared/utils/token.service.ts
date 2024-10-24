@@ -11,7 +11,7 @@ import {
   HttpResponse,
 } from '@angular/common/http';
 import { ResponseModel } from '../models/reponse.model';
-import { LoadingService } from 'src/app/components/loading/loading.service';
+import { LoadingService } from 'src/app/shared/utils/loading.service';
 
 @Injectable({
   providedIn: 'root',

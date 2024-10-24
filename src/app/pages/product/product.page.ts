@@ -1,6 +1,6 @@
 import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { LoadingService } from 'src/app/components/loading/loading.service';
+import { LoadingService } from 'src/app/shared/utils/loading.service';
 import { ProductModel } from 'src/app/shared/models/product.model';
 import { ProductService } from 'src/app/shared/services/product.service';
 

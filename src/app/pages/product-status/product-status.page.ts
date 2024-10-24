@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { ProductService } from 'src/app/shared/services/product.service';
 import { TemplateRef, ViewChild } from '@angular/core';
-import { LoadingService } from 'src/app/components/loading/loading.service';
+import { LoadingService } from 'src/app/shared/utils/loading.service';
 
 @Component({
   selector: 'app-product-status',

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { LoginRequest } from 'src/app/shared/models/login-request.model';
 import { LoginService } from 'src/app/shared/services/login.service';
+import { MsgErroLoginService } from 'src/app/shared/utils/msg-erro-login.service';
 import { StorageService } from 'src/app/shared/utils/storage.service';
 
 @Component({
@@ -13,16 +13,27 @@ import { StorageService } from 'src/app/shared/utils/storage.service';
 export class LoginPage implements OnInit {
   loginForm: FormGroup;
 
+  msgError = '';
+
   constructor(
     private formBuilder: FormBuilder,
     private loginService: LoginService,
     private storageService: StorageService,
-    private router: Router
+    private msgErroLoginService: MsgErroLoginService
   ) {}
 
   ngOnInit(): void {
     this.initializeForm();
     this.storageService.clearDataLogin();
+
+    this.msgErroLoginService.msgErroLogin$.subscribe((msgErro) => {
+      console.log('======', msgErro);
+      if (msgErro) {
+        this.msgError = 'Usuário ou senha inválidos';
+      } else {
+        this.msgError = '';
+      }
+    });
   }
 
   initializeForm(): void {

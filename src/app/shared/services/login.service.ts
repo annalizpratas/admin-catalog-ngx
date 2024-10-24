@@ -8,6 +8,8 @@ import { Router } from '@angular/router';
 import { environment } from 'src/environment';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
+import { LoadingService } from 'src/app/shared/utils/loading.service';
+import { MsgErroLoginService } from '../utils/msg-erro-login.service';
 
 @Injectable({
   providedIn: 'root',
@@ -19,15 +21,20 @@ export class LoginService {
     private http: HttpClient,
     private router: Router,
     private tokenService: TokenService,
+    private loadingService: LoadingService,
+    private msgErroLoginService: MsgErroLoginService,
     private storageService: StorageService
   ) {}
 
   login(loginRequest: LoginRequest): void {
+    this.loadingService.show();
     this.http
       .post(`${this.apiUrl}/login`, loginRequest)
       .pipe(
         catchError((data: HttpErrorResponse) => {
           console.log(data.error);
+          this.msgErroLoginService.show();
+          this.loadingService.hide();
           return throwError(data);
         })
       )
@@ -38,7 +45,9 @@ export class LoginService {
           this.router.navigate(['home']);
         } else {
           console.log(response.message);
+          this.msgErroLoginService.show();
         }
+        this.loadingService.hide();
       });
   }
 
