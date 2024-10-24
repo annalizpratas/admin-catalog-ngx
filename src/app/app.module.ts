@@ -11,15 +11,18 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
 import { BackPageComponent } from './components/back-page/back-page.component';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { SelectUploadImagesComponent } from './components/back-page/select-upload-images/select-upload-images.component';
 import { NgbCarouselModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoadingComponent } from './components/loading/loading.component';
+import { LoginPage } from './pages/login/login.page';
+import { TokenService } from './shared/utils/token.service';
 
 @NgModule({
   declarations: [
     AppComponent,
+    LoginPage,
     HomePage,
     ProductPage,
     ProductCategoryPage,
@@ -32,6 +35,7 @@ import { LoadingComponent } from './components/loading/loading.component';
     CommonModule,
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule,
@@ -39,7 +43,13 @@ import { LoadingComponent } from './components/loading/loading.component';
     NgbModule,
     NgbCarouselModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenService,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

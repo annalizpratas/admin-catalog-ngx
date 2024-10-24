@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { HttpUtilsService } from '../utils/http-utils.service';
 import { ProductModel } from '../models/product.model';
 import { ResponseModel } from '../models/reponse.model';
 import { environment } from 'src/environment';
@@ -9,7 +10,7 @@ import { environment } from 'src/environment';
 export class ProductService {
   url = environment.apiUrl;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private httpUtilsService: HttpUtilsService) {}
   
   // Product
   getProduct(is_promo: boolean, id_product_category?: number): Observable<ResponseModel<ProductModel[]>> {
@@ -26,49 +27,60 @@ export class ProductService {
   }
 
   createProduct(data: ProductModel): Observable<ResponseModel<ProductModel>> {
-    return this.http.post<ResponseModel<ProductModel>>(`${this.url}/product`, data, {});
+    const headers = this.httpUtilsService.getHeaders();
+    return this.http.post<ResponseModel<ProductModel>>(`${this.url}/product`, data,  { headers });
   }
 
   updateProduct(data: ProductModel): Observable<ResponseModel<ProductModel>> {
-    return this.http.put<ResponseModel<ProductModel>>(`${this.url}/product/${data.id}`, data, {});
+    const headers = this.httpUtilsService.getHeaders();
+    return this.http.put<ResponseModel<ProductModel>>(`${this.url}/product/${data.id}`, data,  { headers });
   }
 
   deleteProduct(id: number): Observable<ResponseModel<ProductModel>> {
-    return this.http.delete<ResponseModel<ProductModel>>(`${this.url}/product/${id}`, {});
+    const headers = this.httpUtilsService.getHeaders();
+    return this.http.delete<ResponseModel<ProductModel>>(`${this.url}/product/${id}`,  { headers });
   }
 
   // Product Status
   getProductStatus(): Observable<ResponseModel<{id: number, name: string}[]>> {
-    return this.http.get<ResponseModel<{id: number, name: string}[]>>(`${this.url}/product-status-list`, {});
+    const headers = this.httpUtilsService.getHeaders();
+    return this.http.get<ResponseModel<{id: number, name: string}[]>>(`${this.url}/product-status-list`,  { headers });
   }
 
   createProductStatus(data: {id: number, name: string}): Observable<ResponseModel<{id: number, name: string}>> {
-    return this.http.post<ResponseModel<{id: number, name: string}>>(`${this.url}/product-status`, data, {});
+    const headers = this.httpUtilsService.getHeaders();
+    return this.http.post<ResponseModel<{id: number, name: string}>>(`${this.url}/product-status`, data,  { headers });
   }
 
   updateProductStatus(data: {id: number, name: string}): Observable<ResponseModel<{id: number, name: string}>> {
-    return this.http.put<ResponseModel<{id: number, name: string}>>(`${this.url}/product-status/${data.id}`, data, {});
+    const headers = this.httpUtilsService.getHeaders();
+    return this.http.put<ResponseModel<{id: number, name: string}>>(`${this.url}/product-status/${data.id}`, data,  { headers });
   }
 
   deleteProductStatus(id: number): Observable<ResponseModel<{id: number, name: string}>> {
-    return this.http.delete<ResponseModel<{id: number, name: string}>>(`${this.url}/product-status/${id}`, {});
+    const headers = this.httpUtilsService.getHeaders();
+    return this.http.delete<ResponseModel<{id: number, name: string}>>(`${this.url}/product-status/${id}`,  { headers });
   }
 
   // Product Category
   getProductCategory(): Observable<ResponseModel<{id: number, name: string}[]>> {
-    return this.http.get<ResponseModel<{id: number, name: string}[]>>(`${this.url}/product-category-list`, {});
+    const headers = this.httpUtilsService.getHeaders();
+    return this.http.get<ResponseModel<{id: number, name: string}[]>>(`${this.url}/product-category-list`,  { headers });
   }
 
   createProductCategory(data: {id: number, name: string}): Observable<ResponseModel<{id: number, name: string}>> {
-    return this.http.post<ResponseModel<{id: number, name: string}>>(`${this.url}/product-category`, data, {});
+    const headers = this.httpUtilsService.getHeaders();
+    return this.http.post<ResponseModel<{id: number, name: string}>>(`${this.url}/product-category`, data,  { headers });
   }
 
   updateProductCategory(data: {id: number, name: string}): Observable<ResponseModel<{id: number, name: string}>> {
-    return this.http.put<ResponseModel<{id: number, name: string}>>(`${this.url}/product-category/${data.id}`, data, {});
+    const headers = this.httpUtilsService.getHeaders();
+    return this.http.put<ResponseModel<{id: number, name: string}>>(`${this.url}/product-category/${data.id}`, data,  { headers });
   }
 
   deleteProductCategory(id: number): Observable<ResponseModel<{id: number, name: string}>> {
-    return this.http.delete<ResponseModel<{id: number, name: string}>>(`${this.url}/product-category/${id}`, {});
+    const headers = this.httpUtilsService.getHeaders();
+    return this.http.delete<ResponseModel<{id: number, name: string}>>(`${this.url}/product-category/${id}`,  { headers });
   }
 
   // IMAGES
