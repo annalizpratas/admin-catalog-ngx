@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { ProductService } from 'src/app/shared/services/product.service';
 import { TemplateRef, ViewChild } from '@angular/core';
+import { LoadingService } from 'src/app/components/loading/loading.service';
 
 @Component({
   selector: 'app-product-status',
@@ -18,6 +19,7 @@ export class ProductStatusPage implements OnInit {
 
   constructor(
     private dialog: MatDialog,
+    private loadingService: LoadingService,
     private productService: ProductService
   ) {}
 
@@ -38,11 +40,21 @@ export class ProductStatusPage implements OnInit {
   }
 
   deleteStatus(id: number): void {
-    this.productService.deleteProductStatus(id).subscribe(() => {
-      this.dataSource.data = this.dataSource.data.filter(
-        (item) => item.id !== id
-      );
-    });
+    this.loadingService.show();
+
+    this.productService.deleteProductStatus(id).subscribe(
+      (data) => {
+        this.dataSource.data = this.dataSource.data.filter(
+          (item) => item.id !== id
+        );
+
+        this.loadingService.hide();
+      },
+      (error) => {
+        console.error('error', error);
+        this.loadingService.hide();
+      }
+    );
   }
 
   closeDialog(): void {
@@ -50,6 +62,8 @@ export class ProductStatusPage implements OnInit {
   }
 
   saveStatus(): void {
+    this.loadingService.show();
+
     if (this.isEditMode) {
       const index = this.dataSource.data.findIndex(
         (item) => item.id === this.status.id
@@ -57,19 +71,46 @@ export class ProductStatusPage implements OnInit {
       if (index !== -1) {
         this.dataSource.data[index] = this.status;
       }
-      this.productService.updateProductStatus(this.status).subscribe();
+      this.productService.updateProductStatus(this.status).subscribe(
+        (data) => {
+          this.status = data.response;
+          this.loadingService.hide();
+        },
+        (error) => {
+          console.error('error', error);
+          this.loadingService.hide();
+        }
+      );
     } else {
-      this.status.id = this.dataSource.data.length + 1;
-      this.dataSource.data.push(this.status);
-      this.productService.createProductStatus(this.status).subscribe();
+      this.productService.createProductStatus(this.status).subscribe(
+        (data) => {
+          this.status = data.response;
+          this.dataSource.data.push(this.status);
+          this.loadingService.hide();
+          this.dataSource._updateChangeSubscription();
+        },
+        (error) => {
+          console.error('error', error);
+          this.loadingService.hide();
+        }
+      );
     }
     this.dataSource._updateChangeSubscription();
     this.closeDialog();
   }
 
   private listProductStatus(): void {
-    this.productService.getProductStatus().subscribe((data) => {
-      this.dataSource.data = data.response;
-    });
+    this.loadingService.show();
+
+    this.productService.getProductStatus().subscribe(
+      (data) => {
+        this.dataSource.data = data.response;
+        this.loadingService.hide();
+      },
+      (error) => {
+        console.error('error', error);
+        this.loadingService.hide();
+      }
+    );
   }
 }

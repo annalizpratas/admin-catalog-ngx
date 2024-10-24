@@ -15,6 +15,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { SelectUploadImagesComponent } from './components/back-page/select-upload-images/select-upload-images.component';
 import { NgbCarouselModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { LoadingComponent } from './components/loading/loading.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { NgbCarouselModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
     ProductStatusPage,
     BackPageComponent,
     SelectUploadImagesComponent,
+    LoadingComponent,
   ],
   imports: [
     CommonModule,

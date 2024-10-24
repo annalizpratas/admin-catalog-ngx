@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { ProductService } from 'src/app/shared/services/product.service';
 import { TemplateRef, ViewChild } from '@angular/core';
+import { LoadingService } from 'src/app/components/loading/loading.service';
 
 @Component({
   selector: 'app-product-category',
@@ -18,6 +19,7 @@ export class ProductCategoryPage implements OnInit {
 
   constructor(
     private dialog: MatDialog,
+    private loadingService: LoadingService,
     private productService: ProductService
   ) {}
 
@@ -38,11 +40,19 @@ export class ProductCategoryPage implements OnInit {
   }
 
   deleteCategory(id: number): void {
-    this.productService.deleteProductCategory(id).subscribe(() => {
-      this.dataSource.data = this.dataSource.data.filter(
-        (item) => item.id !== id
-      );
-    });
+    this.loadingService.show();
+
+    this.productService.deleteProductCategory(id).subscribe(
+      () => {
+        this.dataSource.data = this.dataSource.data.filter(
+          (item) => item.id !== id
+        );
+      },
+      (error) => {
+        console.error('error', error);
+        this.loadingService.hide();
+      }
+    );
   }
 
   closeDialog(): void {
@@ -50,26 +60,57 @@ export class ProductCategoryPage implements OnInit {
   }
 
   saveCategory(): void {
+    this.loadingService.show();
+
     if (this.isEditMode) {
       const index = this.dataSource.data.findIndex(
         (item) => item.id === this.category.id
       );
+
       if (index !== -1) {
         this.dataSource.data[index] = this.category;
       }
-      this.productService.updateProductCategory(this.category).subscribe();
+
+      this.productService.updateProductCategory(this.category).subscribe(
+        (data) => {
+          this.category = data.response;
+          this.loadingService.hide();
+        },
+        (error) => {
+          console.error('error', error);
+          this.loadingService.hide();
+        }
+      );
     } else {
-      this.category.id = this.dataSource.data.length + 1;
-      this.dataSource.data.push(this.category);
-      this.productService.createProductCategory(this.category).subscribe();
+      this.productService.createProductCategory(this.category).subscribe(
+        (data) => {
+          this.category = data.response;
+          this.dataSource.data.push(this.category);
+          this.loadingService.hide();
+          this.dataSource._updateChangeSubscription();
+        },
+        (error) => {
+          console.error('error', error);
+          this.loadingService.hide();
+        }
+      );
     }
     this.dataSource._updateChangeSubscription();
     this.closeDialog();
   }
 
   private listProductCategory(): void {
-    this.productService.getProductCategory().subscribe((data) => {
-      this.dataSource.data = data.response;
-    });
+    this.loadingService.show();
+
+    this.productService.getProductCategory().subscribe(
+      (data) => {
+        this.dataSource.data = data.response;
+        this.loadingService.hide();
+      },
+      (error) => {
+        console.error('error', error);
+        this.loadingService.hide();
+      }
+    );
   }
 }

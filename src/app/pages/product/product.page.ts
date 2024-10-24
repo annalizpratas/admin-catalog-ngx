@@ -1,5 +1,6 @@
 import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { LoadingService } from 'src/app/components/loading/loading.service';
 import { ProductModel } from 'src/app/shared/models/product.model';
 import { ProductService } from 'src/app/shared/services/product.service';
 
@@ -25,6 +26,7 @@ export class ProductPage {
 
   constructor(
     private dialog: MatDialog,
+    private loadingService: LoadingService,
     private productService: ProductService
   ) {}
 
@@ -35,6 +37,8 @@ export class ProductPage {
   }
 
   onFilterChange(id_product_category: number): void {
+    this.loadingService.show();
+
     if (!id_product_category || id_product_category == 0) {
       this.listProduct();
       return;
@@ -46,10 +50,12 @@ export class ProductPage {
         (data) => {
           this.productList = data.response;
           this.msgError = null;
+          this.loadingService.hide();
         },
         (error) => {
           this.productList = null;
           this.msgError = error.error.message;
+          this.loadingService.hide();
         }
       );
   }
@@ -67,31 +73,55 @@ export class ProductPage {
   }
 
   deleteProduct(id: number): void {
-    this.productService.deleteProduct(id).subscribe(() => {
-      this.productList = this.productList.filter(
-        (product) => product.id !== id
-      );
-    });
+    this.loadingService.show();
+
+    this.productService.deleteProduct(id).subscribe(
+      () => {
+        this.productList = this.productList.filter(
+          (product) => product.id !== id
+        );
+
+        this.loadingService.hide();
+      },
+      (error) => {
+        this.msgError = error.error.message;
+        this.loadingService.hide();
+      }
+    );
   }
 
   saveProduct(): void {
+    this.loadingService.show();
+
     if (this.isEditMode) {
-      this.productService
-        .updateProduct(this.productManipulation)
-        .subscribe((data) => {
+      this.productService.updateProduct(this.productManipulation).subscribe(
+        (data) => {
           const index = this.productList.findIndex(
             (product) => product.id === this.productManipulation.id
           );
           if (index !== -1) {
             this.productList[index] = data.response;
           }
-        });
+
+          this.loadingService.hide();
+        },
+        (error) => {
+          this.msgError = error.error.message;
+          this.loadingService.hide();
+        }
+      );
     } else {
-      this.productService
-        .createProduct(this.productManipulation)
-        .subscribe((data) => {
+      this.productService.createProduct(this.productManipulation).subscribe(
+        (data) => {
           this.productList.push(data.response);
-        });
+
+          this.loadingService.hide();
+        },
+        (error) => {
+          this.msgError = error.error.message;
+          this.loadingService.hide();
+        }
+      );
     }
     this.closeDialog();
   }
@@ -109,27 +139,49 @@ export class ProductPage {
   }
 
   private listProduct(): void {
+    this.loadingService.show();
+
     this.productService.getProduct(this.filterPromo).subscribe(
       (data) => {
         this.productList = data.response;
         this.msgError = null;
+        this.loadingService.hide();
       },
       (error) => {
         this.productList = null;
         this.msgError = error.error.message;
+        this.loadingService.hide();
       }
     );
   }
 
   private listProductCategory(): void {
-    this.productService.getProductCategory().subscribe((data) => {
-      this.productCategoryList = data.response;
-    });
+    this.loadingService.show();
+
+    this.productService.getProductCategory().subscribe(
+      (data) => {
+        this.productCategoryList = data.response;
+        this.loadingService.hide();
+      },
+      (error) => {
+        this.msgError = error.error.message;
+        this.loadingService.hide();
+      }
+    );
   }
 
   private listProductStatus(): void {
-    this.productService.getProductStatus().subscribe((data) => {
-      this.productStatusList = data.response;
-    });
+    this.loadingService.show();
+
+    this.productService.getProductStatus().subscribe(
+      (data) => {
+        this.productStatusList = data.response;
+        this.loadingService.hide();
+      },
+      (error) => {
+        this.msgError = error.error.message;
+        this.loadingService.hide();
+      }
+    );
   }
 }
