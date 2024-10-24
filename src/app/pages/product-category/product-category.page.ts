@@ -13,7 +13,7 @@ export class ProductCategoryPage implements OnInit {
   @ViewChild('dialogTemplate') dialogTemplate!: TemplateRef<any>;
   displayedColumns: string[] = ['id', 'name', 'actions'];
   dataSource = new MatTableDataSource<any>([]);
-  category: { id: number; name: string } = null;
+  category: { id: number; name: string } = { id: 0, name: '' };
   isEditMode = false;
 
   constructor(
@@ -27,7 +27,7 @@ export class ProductCategoryPage implements OnInit {
 
   openDialog(): void {
     this.isEditMode = false;
-    this.category = null;
+    this.category = { id: 0, name: '' };
     this.dialog.open(this.dialogTemplate);
   }
 
