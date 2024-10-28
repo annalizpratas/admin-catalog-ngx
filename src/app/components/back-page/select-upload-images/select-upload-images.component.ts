@@ -54,21 +54,27 @@ export class SelectUploadImagesComponent implements OnChanges {
   }
 
   deleteImage(image: any): void {
-    this.imagesService.deleteImage(image).subscribe(() => {
-      this.imagesManipulateds = this.imagesManipulateds.filter((img) => img !== image);
-      this.imagesSelected.emit(this.imagesManipulateds);
-      this.changed.emit();
-    }, (error) => {
-      console.error('Error deleting image', error);
-      this.imagesManipulateds = this.imagesManipulateds.filter((img) => img !== image);
-      this.imagesSelected.emit(this.imagesManipulateds);
-      this.changed.emit();
-    });
+    this.imagesService.deleteImage(image).subscribe(
+      () => {
+        this.imagesManipulateds = this.imagesManipulateds.filter(
+          (img) => img !== image
+        );
+        this.imagesSelected.emit(this.imagesManipulateds);
+        this.changed.emit();
+      },
+      (error) => {
+        console.error('Error deleting image', error);
+        this.imagesManipulateds = this.imagesManipulateds.filter(
+          (img) => img !== image
+        );
+        this.imagesSelected.emit(this.imagesManipulateds);
+        this.changed.emit();
+      }
+    );
   }
 
   downloadImage(image: string): void {
     this.imagesService.downloadImage(image).subscribe((data) => {
-      console.log('data', data)
       const url = window.URL.createObjectURL(data);
       const a = document.createElement('a');
       a.href = url;

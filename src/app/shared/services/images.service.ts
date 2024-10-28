@@ -16,12 +16,12 @@ export class ImagesService {
   }
 
   uploadImage(image: File, filename: string): Observable<ResponseModel<string>> {
-    const headers = this.httpUtilsService.getHeaders();
+    const headers = this.httpUtilsService.getHeadersImage();
     const formData = new FormData();
     formData.append('image', image, filename);
     return this.http.post<ResponseModel<string>>(`${this.url}/images`, formData, { headers });
   }
-  
+
   deleteImage(filename: string): Observable<ResponseModel<string>> {
     const headers = this.httpUtilsService.getHeaders();
     return this.http.delete<ResponseModel<string>>(`${this.url}/images/${filename}`, { headers });
