@@ -4,6 +4,7 @@ import { StorageService } from './shared/utils/storage.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
   title = 'admin-catalog-ngx';
