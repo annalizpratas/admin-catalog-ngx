@@ -6,7 +6,6 @@
     "dev": "ng serve",
     "start": "ng serve",
     "build": "ng build",
-    "build:docs": "ng build --output-path docs --configuration production",
     "deploy": "ng build --output-path docs  --configuration production --base-href /admin-catalog-ngx/",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
